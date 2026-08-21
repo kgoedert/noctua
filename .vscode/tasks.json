@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Backend",
+      "type": "shell",
+      "command": "./mvnw spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      }
+    },
+    {
+      "label": "Run Frontend",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      }
+    },
+    {
+      "label": "Run AI Service",
+      "type": "shell",
+      "command": "uvicorn app.main:app --reload",
+      "options": {
+        "cwd": "${workspaceFolder}/ai-service"
+      }
+    },
+    {
+      "label": "Start Database",
+      "type": "shell",
+      "command": "docker-compose up -d postgres",
+      "options": {
+        "cwd": "${workspaceFolder}/infrastructure"
+      }
+    }
+  ]
+}

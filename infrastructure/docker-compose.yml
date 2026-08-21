@@ -1,0 +1,16 @@
+version: "3"
+networks:
+  perkd:
+    driver: bridge
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    volumes:
+      - /extra/apps/perkd/postgres-data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=padrao
+    networks:
+      - perkd
