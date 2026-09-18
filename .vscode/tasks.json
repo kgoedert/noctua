@@ -6,7 +6,10 @@
       "type": "shell",
       "command": "./mvnw spring-boot:run",
       "options": {
-        "cwd": "${workspaceFolder}/backend"
+        "cwd": "${workspaceFolder}/backend",
+        "env": {
+          "google.client-id": "${env:GOOGLE_CLIENT_ID}"
+        }
       }
     },
     {

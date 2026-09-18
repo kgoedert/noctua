@@ -1,15 +1,27 @@
 {
-    "sqltools.connections": [
-        {
-            "ssh": "Disabled",
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
-            "name": "perkd postgres",
-            "username": "postgres",
-            "password": "padrao",
-            "database": "postgres"
-        }
-    ]
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "noctua postgres",
+      "username": "postgres",
+      "password": "padrao",
+      "database": "postgres"
+    },
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "noctua",
+      "database": "noctua",
+      "username": "noctua",
+      "password": "noctua"
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

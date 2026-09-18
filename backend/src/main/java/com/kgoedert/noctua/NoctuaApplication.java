@@ -1,13 +1,13 @@
-package com.kgoedert.perkd;
+package com.kgoedert.noctua;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PerkdApplication {
+public class NoctuaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PerkdApplication.class, args);
+		SpringApplication.run(NoctuaApplication.class, args);
 	}
 
 }

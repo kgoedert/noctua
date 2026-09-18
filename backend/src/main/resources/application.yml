@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: noctua
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/noctua
+    username: noctua
+    password: noctua
+    driver-class-name: org.postgresql.Driver
+
+
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+server:
+  servlet:
+    context-path: /api
+
+google:
+  client-id: ${GOOGLE_CLIENT_ID}
+
+logging:
+  level:
+    org.flywaydb: DEBUG
+
+noctua:
+  jwt:
+    private-key: ${NOCTUA_JWT_PRIVATE_KEY}
+    public-key: ${NOCTUA_JWT_PUBLIC_KEY}
