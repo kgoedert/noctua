@@ -32,4 +32,8 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    User findById(Long userId) {
+        return this.userRepository.findById(userId).get();
+    }
 }
