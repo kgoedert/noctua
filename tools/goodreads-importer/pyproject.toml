@@ -1,0 +1,26 @@
+[project]
+name = "goodreads-importer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kelly Goedert", email = "kelly@substractum.com.br" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pytest>=9.2.0",
+]
+
+[project.scripts]
+goodreads-importer = "goodreads_importer:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+norecursedirs = [
+    ".git", ".venv", "venv", "node_modules", "build", "dist",
+    "__pycache__", ".mypy_cache", ".ruff_cache", ".tox", "*.egg-info",
+]

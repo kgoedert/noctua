@@ -23,5 +23,29 @@
       "password": "noctua"
     }
   ],
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "python-envs.workspaceSearchPaths": [
+    "/extra/repositories/noctua/tools/goodreads-importer/.venv"
+  ],
+  "python.testing.pytestArgs": ["tools"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.autoTestDiscoverOnSaveEnabled": false,
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/tools/goodreads-importer/src",
+    "./tools/goodreads-importer/src"
+  ],
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.pytest_cache/**": true
+  },
+  "search.exclude": {
+    "**/.venv": true,
+    "**/node_modules": true,
+    "**/__pycache__": true
+  }
 }
