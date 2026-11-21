@@ -35,6 +35,14 @@
       "options": {
         "cwd": "${workspaceFolder}/infrastructure"
       }
+    },
+    {
+      "label": "Start FastAPI Dev Server",
+      "type": "shell",
+      "command": "uv run fastapi dev",
+      "options": {
+        "cwd": "${workspaceFolder}/tools/goodreads-importer/src/goodreads_importer/api"
+      }
     }
   ]
 }

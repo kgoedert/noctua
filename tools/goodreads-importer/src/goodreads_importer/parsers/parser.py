@@ -1,16 +1,47 @@
+import csv
 import logging
 from collections.abc import Iterator
 from datetime import date, datetime
-from pathlib import Path
+from typing import TextIO
 
+from goodreads_importer.exceptions import InvalidGoodreadsFileError
 from goodreads_importer.models.book import Book
-from goodreads_importer.reader import read_csv
+from goodreads_importer.models.import_result import (
+    GoodreadsImportResult,
+    ImportRecordError,
+)
+from goodreads_importer.parsers.reader import read_csv
 
 logger = logging.getLogger(__name__)
 
 
-def read_goodreads_books(goodreads_file: Path) -> Iterator[Book]:
-    for record_number, record in enumerate(read_csv(goodreads_file), start=1):
+def import_goodreads_file(goodreads_stream: TextIO) -> GoodreadsImportResult:
+    result: GoodreadsImportResult = GoodreadsImportResult(
+        books=[],
+        total_records=0,
+        imported_records=0,
+        rejected_records=0,
+        errors=[],
+    )
+
+    validate_file(goodreads_stream)
+
+    for record in read_goodreads_books(goodreads_stream):
+        if isinstance(record, Book):
+            result.books.append(record)
+            result.imported_records = result.imported_records + 1
+        else:
+            result.errors.append(record)
+            result.rejected_records = result.rejected_records + 1
+    result.total_records = result.imported_records + result.rejected_records
+
+    return result
+
+
+def read_goodreads_books(
+    goodreads_stream: TextIO,
+) -> Iterator[Book | ImportRecordError]:
+    for record_number, record in enumerate(read_csv(goodreads_stream), start=1):
         try:
             book = parse_goodreads_book(record)
             yield book
@@ -18,7 +49,7 @@ def read_goodreads_books(goodreads_file: Path) -> Iterator[Book]:
             logger.warning(
                 "Could not import Goodreads record %s: %s", record_number, error
             )
-            continue
+            yield ImportRecordError(message=str(error), record_number=record_number)
 
 
 def parse_goodreads_book(book_record: dict[str, str]) -> Book:
@@ -96,3 +127,15 @@ def parse_int_field(int_field: str | None) -> int | None:
     if int_field is not None and int_field != "":
         return int(int_field)
     return None
+
+
+def validate_file(goodreads_stream: TextIO):
+    reader = csv.DictReader(goodreads_stream)
+
+    headers = reader.fieldnames
+
+    if not headers or not "Book Id" in headers or not "Title" in headers:
+        raise InvalidGoodreadsFileError(
+            "Missing one or more required headers. 'Book Id' and/or 'Title'"
+        )
+    goodreads_stream.seek(0)

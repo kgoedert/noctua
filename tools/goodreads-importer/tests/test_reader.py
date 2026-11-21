@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-from goodreads_importer.reader import read_csv
+from goodreads_importer.parsers.reader import read_csv
 
 
 def test_read_file_returns_two_records(tmp_path: Path):
@@ -14,7 +14,8 @@ def test_read_file_returns_two_records(tmp_path: Path):
 
     content_file.write_text(contents, encoding="utf-8")
 
-    books: list[dict[str, str]] = list(read_csv(content_file))
+    with open(content_file) as f:
+        books: list[dict[str, str]] = list(read_csv(f))
 
     assert len(books) == 2
     first_book = books[0]
@@ -36,7 +37,8 @@ def test_read_file_with_only_header(tmp_path: Path):
 
     content_file.write_text(contents, encoding="utf-8")
 
-    books: list[dict[str, str]] = list(read_csv(content_file))
+    with open(content_file) as f:
+        books: list[dict[str, str]] = list(read_csv(f))
 
     assert len(books) == 0
 
@@ -45,7 +47,8 @@ def test_read_empty_file(tmp_path: Path):
     content_file = tmp_path / "empty_file.csv"
     content_file.touch()
 
-    books: list[dict[str, str]] = list(read_csv(content_file))
+    with open(content_file) as f:
+        books: list[dict[str, str]] = list(read_csv(f))
 
     assert len(books) == 0
 
@@ -53,8 +56,8 @@ def test_read_empty_file(tmp_path: Path):
 def test_read_non_existing_file(tmp_path: Path):
     content_file = tmp_path / "non_existing_file.csv"
 
-    with pytest.raises(FileNotFoundError):
-        list(read_csv(content_file))
+    with pytest.raises(FileNotFoundError), open(content_file) as f:
+        list(read_csv(f))
 
 
 def test_read_special_characters(tmp_path: Path):
@@ -64,7 +67,8 @@ def test_read_special_characters(tmp_path: Path):
 '''
     content_file.write_text(contents, encoding="utf-8")
 
-    books: list[dict[str, str]] = list(read_csv(content_file))
+    with open(content_file) as f:
+        books: list[dict[str, str]] = list(read_csv(f))
 
     assert len(books) == 1
 
@@ -81,7 +85,8 @@ def test_additional_authors_are_correctly_kept(tmp_path: Path):
 '''
     content_file.write_text(contents, encoding="utf-8")
 
-    books: list[dict[str, str]] = list(read_csv(content_file))
+    with open(content_file) as f:
+        books: list[dict[str, str]] = list(read_csv(f))
 
     assert len(books) == 1
     assert len(books[0]["Additional Authors"].split(sep=", ")) == 24
